@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[StudentDisciplines]
+(
+	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	StudentID INT NOT NULL FOREIGN KEY REFERENCES Students(ID),
+	DisciplineID INT NOT NULL FOREIGN KEY REFERENCES Disciplines(ID)
+)

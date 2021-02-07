@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Semesters]
+(
+	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY ,
+	[Name] NVARCHAR(100) NOT NULL,
+	[StartDate] DATETIME NOT NULL,
+	[EndDate] DATETIME NOT NULL
+)

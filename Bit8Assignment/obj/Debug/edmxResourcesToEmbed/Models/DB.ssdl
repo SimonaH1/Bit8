@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Bit8Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Disciplines">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DisciplineName" Type="nchar" MaxLength="100" Nullable="false" />
+    <Property Name="ProfesorName" Type="nchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Scores">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Value" Type="int" Nullable="false" />
+    <Property Name="DisciplineID" Type="int" Nullable="false" />
+    <Property Name="StudentID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SemesterDisciplines">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SemesterID" Type="int" Nullable="false" />
+    <Property Name="DisciplineID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Semesters">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="DOB" Type="datetime" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="256" />
+    <Property Name="PhoneNumber" Type="int" />
+  </EntityType>
+  <EntityType Name="StudentSemester">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentID" Type="int" Nullable="false" />
+    <Property Name="SemesterID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Scores__Discipli__628FA481">
+    <End Role="Disciplines" Type="Self.Disciplines" Multiplicity="1" />
+    <End Role="Scores" Type="Self.Scores" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Disciplines">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Scores">
+        <PropertyRef Name="DisciplineID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Scores__StudentI__6383C8BA">
+    <End Role="Students" Type="Self.Students" Multiplicity="1" />
+    <End Role="Scores" Type="Self.Scores" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Scores">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SemesterD__Disci__5AEE82B9">
+    <End Role="Disciplines" Type="Self.Disciplines" Multiplicity="1" />
+    <End Role="SemesterDisciplines" Type="Self.SemesterDisciplines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Disciplines">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SemesterDisciplines">
+        <PropertyRef Name="DisciplineID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SemesterD__Semes__59FA5E80">
+    <End Role="Semesters" Type="Self.Semesters" Multiplicity="1" />
+    <End Role="SemesterDisciplines" Type="Self.SemesterDisciplines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Semesters">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SemesterDisciplines">
+        <PropertyRef Name="SemesterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StudentSe__Semes__5535A963">
+    <End Role="Semesters" Type="Self.Semesters" Multiplicity="1" />
+    <End Role="StudentSemester" Type="Self.StudentSemester" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Semesters">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentSemester">
+        <PropertyRef Name="SemesterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StudentSe__Stude__5441852A">
+    <End Role="Students" Type="Self.Students" Multiplicity="1" />
+    <End Role="StudentSemester" Type="Self.StudentSemester" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentSemester">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Bit8ModelStoreContainer">
+    <EntitySet Name="Disciplines" EntityType="Self.Disciplines" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Scores" EntityType="Self.Scores" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SemesterDisciplines" EntityType="Self.SemesterDisciplines" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Semesters" EntityType="Self.Semesters" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentSemester" EntityType="Self.StudentSemester" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Scores__Discipli__628FA481" Association="Self.FK__Scores__Discipli__628FA481">
+      <End Role="Disciplines" EntitySet="Disciplines" />
+      <End Role="Scores" EntitySet="Scores" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Scores__StudentI__6383C8BA" Association="Self.FK__Scores__StudentI__6383C8BA">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="Scores" EntitySet="Scores" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SemesterD__Disci__5AEE82B9" Association="Self.FK__SemesterD__Disci__5AEE82B9">
+      <End Role="Disciplines" EntitySet="Disciplines" />
+      <End Role="SemesterDisciplines" EntitySet="SemesterDisciplines" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SemesterD__Semes__59FA5E80" Association="Self.FK__SemesterD__Semes__59FA5E80">
+      <End Role="Semesters" EntitySet="Semesters" />
+      <End Role="SemesterDisciplines" EntitySet="SemesterDisciplines" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentSe__Semes__5535A963" Association="Self.FK__StudentSe__Semes__5535A963">
+      <End Role="Semesters" EntitySet="Semesters" />
+      <End Role="StudentSemester" EntitySet="StudentSemester" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentSe__Stude__5441852A" Association="Self.FK__StudentSe__Stude__5441852A">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="StudentSemester" EntitySet="StudentSemester" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

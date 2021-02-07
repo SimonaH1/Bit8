@@ -1,0 +1,198 @@
+﻿@model IEnumerable<Bit8Assignment.Discipline>
+@{
+    ViewBag.Title = "Disciplines";
+} 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <table id="tblDisciplines" class="table" cellpadding="0" cellspacing="0">
+        <tr>
+            <th style="width:150px">Discipline Name</th>
+            <th style="width:150px">Profesor Name</th>
+            <th style="width:150px">Semester</th>
+            <th style="width:150px"></th>
+        </tr>
+        @foreach (Discipline discipline in Model)
+        {
+        <tr>
+            <td class="Id" hidden>@discipline.ID</td>
+            <td class="DisciplineName">
+                <span>@discipline.DisciplineName</span>
+                <input type="text" value="@discipline.DisciplineName" style="display:none" />
+            </td>
+            <td class="ProfesorName">
+                <span>@discipline.ProfesorName</span>
+                <input type="text" value="@discipline.ProfesorName" style="display:none" />
+            </td>
+            <td>
+                <a class="Edit" href="javascript:;">Edit</a>
+                <a class="Update" href="javascript:;" style="display:none">Update</a>
+                <a class="Cancel" href="javascript:;" style="display:none">Cancel</a>
+            </td>
+        </tr>
+        }
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="width: 150px">
+                Discipline Name :<br />
+                <input type="text" id="txtDisciplineName" style="width:140px" />
+            </td>
+            <td style="width: 150px">
+                Profesor Name:<br />
+                <input type="text" id="txtProfesorName" style="width:140px" />
+            </td>
+            <td style="width: 200px">
+                <br />
+                <input type="button" id="btnAdd" value="Add" />
+            </td>
+        </tr>
+    </table>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            if ($("#tblDisciplines tr").length > 2) {
+                $("#tblDisciplines tr:eq(1)").remove();
+            } else {
+                var row = $("#tblDisciplines tr:last-child");
+                row.find(".Edit").hide();
+                row.find(".Delete").hide();
+                row.find("span").html('&nbsp;');
+            }
+        });
+        function AppendRow(row, ID, disciplineName, profesorName) {
+            $(".Id", row).find("span").html(ID);
+            $(".DisciplineName", row).find("span").html(disciplineName);
+            $(".DisciplineName", row).find("input").val(disciplineName);
+            $(".ProfesorName", row).find("span").html(profesorName);
+            $(".ProfesorName", row).find("input").val(profesorName);
+
+            row.find(".Edit").show();
+            row.find(".Delete").show();
+
+            $("#tblDisciplines").append(row);
+        };
+
+        //Add event handler.
+        $("body").on("click", "#btnAdd", function () {
+            var txtDName = $("#txtDisciplineName");
+            var txtPName = $("#txtProfesorName");
+            var _discipline = {};
+            _discipline.ID = $(".Id").val();
+            _discipline.DisciplineName = txtDName.val();
+            _discipline.ProfesorName = txtPName.val();
+            $.ajax({
+                type: "POST",
+                url: "/api/AjaxAPIDiscipline/InsertDiscipline",
+                data: JSON.stringify(_discipline),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    var row = $("#tblDisciplines tr:last-child");
+                    if ($("#tblDisciplines tr:last-child span").eq(0).html() != "&nbsp;") {
+                        row = row.clone();
+                    }
+                    AppendRow(row, r.ID, r.DisciplineName, r.ProfesorName);
+                    txtDName.val("");
+                    txtDName.val("");
+                }
+            });
+        });
+
+        //Edit event handler.
+        $("body").on("click", "#tblDisciplines .Edit", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    $(this).find("input").show();
+                    $(this).find("span").hide();
+                }
+            });
+            row.find(".Update").show();
+            row.find(".Cancel").show();
+            row.find(".Delete").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("body").on("click", "#tblDisciplines .Update", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".Edit").show();
+            row.find(".Delete").show();
+            row.find(".Cancel").hide();
+            $(this).hide();
+            var _discipline = {};
+            _discipline.ID = row.find(".Id").find("span").val();
+            _discipline.DisciplineName = row.find(".DisciplineName").find("span").html();
+            _discipline.ProfesorName = row.find(".ProfesorName").find("span").html();
+            $.ajax({
+                type: "POST",
+                url: "/api/AjaxAPIDiscipline/UpdateDiscipline",
+                data: JSON.stringify(_discipline),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            });
+        });
+
+        //Cancel event handler.
+        $("body").on("click", "#tblDisciplines .Cancel", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".Edit").show();
+            row.find(".Delete").show();
+            row.find(".Update").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("body").on("click", "#tblDisciplines .Delete", function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                var _discipline = {};
+                _discipline.Id = row.find("span").html();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AjaxAPIDiscipline/DeleteDiscipline",
+                    data: JSON.stringify(_discipline),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if ($("#tblDisciplines tr").length > 2) {
+                            row.remove();
+                        } else {
+                            row.find(".Edit").hide();
+                            row.find(".Delete").hide();
+                            row.find("span").html('&nbsp;');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
