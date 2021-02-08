@@ -15,9 +15,9 @@ namespace Bit8Assignment.Controllers
         }
 
         // GET: Student/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Data()
         {
-            return View();
+            return View("Data", new Semester());
         }
 
         // GET: Student/Create
