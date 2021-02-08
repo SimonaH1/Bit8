@@ -13,7 +13,6 @@ namespace Bit8Assignment.Controllers
         public ActionResult Index()
         {
             Bit8Entities entities = new Bit8Entities();
-            List<SemesterDiscipline> sd = entities.SemesterDisciplines.ToList();
             List<Semester> semesters = entities.Semesters.ToList();
             if (semesters.Count == 0)
             {

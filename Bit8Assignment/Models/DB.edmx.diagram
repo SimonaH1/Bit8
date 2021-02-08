@@ -17,6 +17,9 @@
         <AssociationConnector Association="Bit8Model.FK__SemesterD__Disci__5AEE82B9" />
         <AssociationConnector Association="Bit8Model.FK__Scores__StudentI__6383C8BA" />
         <AssociationConnector Association="Bit8Model.FK__SemesterD__Semes__59FA5E80" />
+        <EntityTypeShape EntityType="Bit8Model.StudentDiscipline" Width="1.5" PointX="8.625" PointY="5.125" />
+        <AssociationConnector Association="Bit8Model.FK__StudentDi__Disci__6754599E" />
+        <AssociationConnector Association="Bit8Model.FK__StudentDi__Stude__66603565" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

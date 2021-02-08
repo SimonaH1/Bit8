@@ -19,6 +19,7 @@ namespace Bit8Assignment
         {
             this.Scores = new HashSet<Score>();
             this.SemesterDisciplines = new HashSet<SemesterDiscipline>();
+            this.StudentDisciplines = new HashSet<StudentDiscipline>();
         }
     
         public int ID { get; set; }
@@ -29,5 +30,7 @@ namespace Bit8Assignment
         public virtual ICollection<Score> Scores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SemesterDiscipline> SemesterDisciplines { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StudentDiscipline> StudentDisciplines { get; set; }
     }
 }

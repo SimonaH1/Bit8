@@ -9,12 +9,9 @@
 
 namespace Bit8Assignment
 {
-    using Bit8Assignment.Models;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Mvc;
-
+    
     public partial class Semester
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -33,11 +30,5 @@ namespace Bit8Assignment
         public virtual ICollection<StudentSemester> StudentSemesters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SemesterDiscipline> SemesterDisciplines { get; set; }
-
-        public SelectList DisciplinesSelectList = new SelectList(new Bit8Entities().Disciplines, "ID", "DisciplineName");
-        public int DisciplineID { get; set; }
-
-        public List<SemesterDiscipline> SemesterDisciplineList => new Bit8Entities().SemesterDisciplines.Where(x => x.SemesterID == Id).ToList();
-
     }
 }

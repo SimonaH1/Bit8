@@ -34,6 +34,14 @@
     <Property Name="StartDate" Type="datetime" Nullable="false" />
     <Property Name="EndDate" Type="datetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="StudentDisciplines">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentID" Type="int" Nullable="false" />
+    <Property Name="DisciplineID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Students">
     <Key>
       <PropertyRef Name="Id" />
@@ -100,6 +108,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__StudentDi__Disci__6754599E">
+    <End Role="Disciplines" Type="Self.Disciplines" Multiplicity="1" />
+    <End Role="StudentDisciplines" Type="Self.StudentDisciplines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Disciplines">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="StudentDisciplines">
+        <PropertyRef Name="DisciplineID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StudentDi__Stude__66603565">
+    <End Role="Students" Type="Self.Students" Multiplicity="1" />
+    <End Role="StudentDisciplines" Type="Self.StudentDisciplines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentDisciplines">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__StudentSe__Semes__5535A963">
     <End Role="Semesters" Type="Self.Semesters" Multiplicity="1" />
     <End Role="StudentSemester" Type="Self.StudentSemester" Multiplicity="*" />
@@ -124,11 +156,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="StudentDisciplinesWithoutScores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TopStudents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SemesterID" Type="int" Mode="In" />
+    <Parameter Name="MaxResults" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="Bit8ModelStoreContainer">
     <EntitySet Name="Disciplines" EntityType="Self.Disciplines" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Scores" EntityType="Self.Scores" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SemesterDisciplines" EntityType="Self.SemesterDisciplines" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Semesters" EntityType="Self.Semesters" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentDisciplines" EntityType="Self.StudentDisciplines" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StudentSemester" EntityType="Self.StudentSemester" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Scores__Discipli__628FA481" Association="Self.FK__Scores__Discipli__628FA481">
@@ -146,6 +184,14 @@
     <AssociationSet Name="FK__SemesterD__Semes__59FA5E80" Association="Self.FK__SemesterD__Semes__59FA5E80">
       <End Role="Semesters" EntitySet="Semesters" />
       <End Role="SemesterDisciplines" EntitySet="SemesterDisciplines" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentDi__Disci__6754599E" Association="Self.FK__StudentDi__Disci__6754599E">
+      <End Role="Disciplines" EntitySet="Disciplines" />
+      <End Role="StudentDisciplines" EntitySet="StudentDisciplines" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentDi__Stude__66603565" Association="Self.FK__StudentDi__Stude__66603565">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="StudentDisciplines" EntitySet="StudentDisciplines" />
     </AssociationSet>
     <AssociationSet Name="FK__StudentSe__Semes__5535A963" Association="Self.FK__StudentSe__Semes__5535A963">
       <End Role="Semesters" EntitySet="Semesters" />

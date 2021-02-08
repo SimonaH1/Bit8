@@ -59,5 +59,33 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="StudentDisciplines">
+      <EntityTypeMapping TypeName="Bit8Model.StudentDiscipline">
+        <MappingFragment StoreEntitySet="StudentDisciplines">
+          <ScalarProperty Name="DisciplineID" ColumnName="DisciplineID" />
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="StudentDisciplinesWithoutScores" FunctionName="Bit8Model.Store.StudentDisciplinesWithoutScores">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Bit8Model.StudentDisciplinesWithoutScores_Result">
+          <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+          <ScalarProperty Name="DisciplineName" ColumnName="DisciplineName" />
+          <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="TopStudents" FunctionName="Bit8Model.Store.TopStudents">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Bit8Model.TopStudents_Result">
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+          <ScalarProperty Name="StudentAvgScore" ColumnName="StudentAvgScore" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

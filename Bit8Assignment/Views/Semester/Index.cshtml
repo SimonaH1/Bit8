@@ -118,6 +118,7 @@
             _semester.Name = txtName.val();
             _semester.startDate = startDate.val();
             _semester.endDate = endDate.val();
+            _semester.DisciplinesList = $('#removeDiscipline').html('');
             $.ajax({
                 type: "POST",
                 url: "/api/AjaxAPI/InsertSemester",

@@ -64,6 +64,20 @@
       <End Role="Semester" EntitySet="Semesters" />
       <End Role="SemesterDiscipline" EntitySet="SemesterDisciplines" />
     </AssociationSet>
+    <EntitySet Name="StudentDisciplines" EntityType="Bit8Model.StudentDiscipline" />
+    <AssociationSet Name="FK__StudentDi__Disci__6754599E" Association="Bit8Model.FK__StudentDi__Disci__6754599E">
+      <End Role="Discipline" EntitySet="Disciplines" />
+      <End Role="StudentDiscipline" EntitySet="StudentDisciplines" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentDi__Stude__66603565" Association="Bit8Model.FK__StudentDi__Stude__66603565">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="StudentDiscipline" EntitySet="StudentDisciplines" />
+    </AssociationSet>
+    <FunctionImport Name="StudentDisciplinesWithoutScores" ReturnType="Collection(Bit8Model.StudentDisciplinesWithoutScores_Result)" />
+    <FunctionImport Name="TopStudents" ReturnType="Collection(Bit8Model.TopStudents_Result)">
+      <Parameter Name="SemesterID" Mode="In" Type="Int32" />
+      <Parameter Name="MaxResults" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Student">
     <Key>
@@ -76,6 +90,7 @@
     <Property Name="PhoneNumber" Type="Int32" />
     <NavigationProperty Name="StudentSemesters" Relationship="Bit8Model.FK__StudentSe__Stude__5441852A" FromRole="Student" ToRole="StudentSemester" />
     <NavigationProperty Name="Scores" Relationship="Bit8Model.FK__Scores__StudentI__6383C8BA" FromRole="Student" ToRole="Score" />
+    <NavigationProperty Name="StudentDisciplines" Relationship="Bit8Model.FK__StudentDi__Stude__66603565" FromRole="Student" ToRole="StudentDiscipline" />
   </EntityType>
   <Association Name="FK__StudentSe__Stude__5441852A">
     <End Type="Bit8Model.Student" Role="Student" Multiplicity="1" />
@@ -98,6 +113,7 @@
     <Property Name="ProfesorName" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="Scores" Relationship="Bit8Model.FK__Scores__Discipli__628FA481" FromRole="Discipline" ToRole="Score" />
     <NavigationProperty Name="SemesterDisciplines" Relationship="Bit8Model.FK__SemesterD__Disci__5AEE82B9" FromRole="Discipline" ToRole="SemesterDiscipline" />
+    <NavigationProperty Name="StudentDisciplines" Relationship="Bit8Model.FK__StudentDi__Disci__6754599E" FromRole="Discipline" ToRole="StudentDiscipline" />
   </EntityType>
   <EntityType Name="Score">
     <Key>
@@ -168,4 +184,49 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="StudentDiscipline">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentID" Type="Int32" Nullable="false" />
+    <Property Name="DisciplineID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Discipline" Relationship="Bit8Model.FK__StudentDi__Disci__6754599E" FromRole="StudentDiscipline" ToRole="Discipline" />
+    <NavigationProperty Name="Student" Relationship="Bit8Model.FK__StudentDi__Stude__66603565" FromRole="StudentDiscipline" ToRole="Student" />
+  </EntityType>
+  <Association Name="FK__StudentDi__Disci__6754599E">
+    <End Type="Bit8Model.Discipline" Role="Discipline" Multiplicity="1" />
+    <End Type="Bit8Model.StudentDiscipline" Role="StudentDiscipline" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discipline">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="StudentDiscipline">
+        <PropertyRef Name="DisciplineID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StudentDi__Stude__66603565">
+    <End Type="Bit8Model.Student" Role="Student" Multiplicity="1" />
+    <End Type="Bit8Model.StudentDiscipline" Role="StudentDiscipline" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentDiscipline">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="StudentDisciplinesWithoutScores_Result">
+    <Property Type="String" Name="StudentName" Nullable="false" MaxLength="256" />
+    <Property Type="String" Name="DisciplineName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="SemesterName" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="Value" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="TopStudents_Result">
+    <Property Type="Int32" Name="StudentID" Nullable="false" />
+    <Property Type="String" Name="StudentName" Nullable="false" MaxLength="256" />
+    <Property Type="Int32" Name="StudentAvgScore" Nullable="true" />
+  </ComplexType>
 </Schema>

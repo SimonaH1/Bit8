@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Bit8Assignment.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Web.Mvc;
 
-namespace Bit8Assignment.Models
+namespace Bit8Assignment
 {
-    public class SemesterModel
+    public partial class Semester 
     {
-        public string Name { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-    }
+        public SelectList DisciplinesSelectList = new SelectList(new Bit8Entities().Disciplines, "ID", "DisciplineName");
+        public int DisciplineID { get; set; }
 
-    public class SemesterListModel
-    {
-        public Semester Semeter { get; set; }
+        public List<SemesterDiscipline> SemesterDisciplineList => new Bit8Entities().SemesterDisciplines.Where(x => x.SemesterID == Id).ToList();
+
+        public List<StudentDisciplinesWithoutScores_Result> List => new Bit8Entities().StudentDisciplinesWithoutScores().ToList();
     }
 }

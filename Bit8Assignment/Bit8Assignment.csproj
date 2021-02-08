@@ -181,7 +181,16 @@
     <Compile Include="Models\Student.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StudentDiscipline.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentDisciplinesWithoutScores_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StudentSemester.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TopStudents_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,10 +250,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Semester\Index.cshtml" />
     <Content Include="Views\Discipline\Index.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Student\Data.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Student\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

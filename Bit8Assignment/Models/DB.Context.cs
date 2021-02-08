@@ -12,6 +12,8 @@ namespace Bit8Assignment.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Bit8Entities : DbContext
     {
@@ -31,5 +33,24 @@ namespace Bit8Assignment.Models
         public virtual DbSet<Discipline> Disciplines { get; set; }
         public virtual DbSet<Score> Scores { get; set; }
         public virtual DbSet<SemesterDiscipline> SemesterDisciplines { get; set; }
+        public virtual DbSet<StudentDiscipline> StudentDisciplines { get; set; }
+    
+        public virtual ObjectResult<StudentDisciplinesWithoutScores_Result> StudentDisciplinesWithoutScores()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<StudentDisciplinesWithoutScores_Result>("StudentDisciplinesWithoutScores");
+        }
+    
+        public virtual ObjectResult<TopStudents_Result> TopStudents(Nullable<int> semesterID, Nullable<int> maxResults)
+        {
+            var semesterIDParameter = semesterID.HasValue ?
+                new ObjectParameter("SemesterID", semesterID) :
+                new ObjectParameter("SemesterID", typeof(int));
+    
+            var maxResultsParameter = maxResults.HasValue ?
+                new ObjectParameter("MaxResults", maxResults) :
+                new ObjectParameter("MaxResults", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TopStudents_Result>("TopStudents", semesterIDParameter, maxResultsParameter);
+        }
     }
 }
