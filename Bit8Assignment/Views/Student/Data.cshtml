@@ -1,25 +1,25 @@
-﻿@model Bit8Assignment.Semester
+﻿@model Bit8Assignment.Data
 @{
     ViewBag.Title = "Data";
 } 
 
 <body>
+    <h1>Students without scores</h1>
+    <br/>
     <table>
         <tr>
             <th>Student</th>
             <th>Discipline</th>
             <th>Semester</th>
         </tr>
-        @foreach (var s in @Model)
+        @foreach (var s in Model.List)
         {
-            foreach (var l in @s.List)
-            {
-                <tr>
-                    <td>@l.StudentName</td>
-                    <td>@l.DisciplineName</td>
-                    <td>@l.SemesterName</td>
-                </tr>
-            }
+
+            <tr>
+                <td>@s.StudentName</td>
+                <td>@s.DisciplineName</td>
+                <td>@s.SemesterName</td>
+            </tr>
         }
     </table>
 </body>
