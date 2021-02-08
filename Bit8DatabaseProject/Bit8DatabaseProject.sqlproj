@@ -73,4 +73,7 @@
     <Build Include="Tables\StudentDisciplines.sql" />
     <Build Include="Tables\StudentSemester.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="DataInsertScript.sql" />
+  </ItemGroup>
 </Project>
